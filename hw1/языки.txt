@@ -1,0 +1,18 @@
+
+изначально не Функциональные, но поддерживают:
+	PERL
+	Ruby
+	JavaScript
+	Java
+	Python
+	С
+	С++
+	С#
+
+не Функциональные:
+	Pascal
+	1C
+	Fortran
+	Ada
+	Delphi
+	
