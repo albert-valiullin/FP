@@ -27,25 +27,26 @@ podst ter (Lam y tr) x
                             App tr1 tr2     -> Lam y (podst ter (App tr1 tr2) x)
 podst ter (App tr1 tr2) x = App (podst ter tr1 x) (podst ter tr2 x)
 
-id'  = Lam 'x' (Var 'x')
-tru  = Lam 't' (Lam 'f' (Var 't'))
-fls  = Lam 't' (Lam 'f' (Var 'f'))
-test = Lam 'l' (Lam 'm' (Lam 'n' (App (App (Var 'l') (Var 'm')) (Var 'n'))))
-an   = Lam 'b' (Lam 'c' (App (App (Var 'b') (Var 'c')) fls))
 
-pair = Lam 'f' (Lam 's' (Lam 'b' (App (App (Var 'b') (Var 'f')) (Var 's'))))
-fs   = Lam 'p' (App (Var 'p') tru)
-sn   = Lam 'p' (App (Var 'p') fls)
+id'  = Lam 'x' (Var 'x')                                                       -- id   = λx. x
+tru  = Lam 't' (Lam 'f' (Var 't'))                                             -- tru  = λt. λf. t
+fls  = Lam 't' (Lam 'f' (Var 'f'))                                             -- fls  = λt. λf. f
+test = Lam 'l' (Lam 'm' (Lam 'n' (App (App (Var 'l') (Var 'm')) (Var 'n'))))   -- test = λl. λm. λn. l m n
+an   = Lam 'b' (Lam 'c' (App (App (Var 'b') (Var 'c')) fls))                   -- and  = λb. λc. b c fls
+
+pair = Lam 'f' (Lam 's' (Lam 'b' (App (App (Var 'b') (Var 'f')) (Var 's'))))   -- pair = λf.λs.λb. b f s
+fs   = Lam 'p' (App (Var 'p') tru)                                             -- fst  = λp. p tru
+sn   = Lam 'p' (App (Var 'p') fls)                                             -- snd  = λp. p fls
 
 
-id_t   = eval (App id' (App id' (Lam 'z' (App id' (Var 'z')))))
-tru_t  = eval (App (App (App test tru) (Var '1')) (Var '0'))
-fls_t  = eval (App (App (App test fls) (Var '1')) (Var '0'))
-and_t1 = eval (App (App an tru) tru)
-and_t2 = eval (App (App an tru) fls)
-and_t3 = eval (App (App an fls) tru)
-and_t4 = eval (App (App an fls) fls)
-fs_t   = eval (App fs (App (App pair (Var '1')) (Var '2')))
-sn_t   = eval (App sn (App (App pair (Var '1')) (Var '2')))
+id_t   = eval (App id' (App id' (Lam 'z' (App id' (Var 'z')))))                -- id (id (λz. id z))
+tru_t  = eval (App (App (App test tru) (Var '1')) (Var '0'))                   -- test tru v w
+fls_t  = eval (App (App (App test fls) (Var '1')) (Var '0'))                   -- test fls v w
+and_t1 = eval (App (App an tru) tru)                                           -- and tru tru
+and_t2 = eval (App (App an tru) fls)                                           -- and tru fls
+and_t3 = eval (App (App an fls) tru)                                           -- and fls tru
+and_t4 = eval (App (App an fls) fls)                                           -- and fls fls
+fs_t   = eval (App fs (App (App pair (Var '1')) (Var '2')))                    -- fst (pair v w)
+sn_t   = eval (App sn (App (App pair (Var '1')) (Var '2')))                    -- snd (pair v w)
 
 
